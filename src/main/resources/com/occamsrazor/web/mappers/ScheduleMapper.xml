@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.occamsrazor.web.mappers.ScheduleMapper">
+    <select id="selectAll" resultType="com.occamsrazor.web.domains.ScheduleDTO">
+        select
+            stadium_id stadiumId,
+            sche_date scheDate,
+            gubun,
+            hometeam_id hometeamId,
+            awayteam_id awayteamId,
+            home_score homeScore,
+            away_score awayScore
+        from schedule
+    </select>
+
+</mapper>
