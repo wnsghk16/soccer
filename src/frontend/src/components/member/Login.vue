@@ -40,6 +40,7 @@
         },
         methods: {
             login(){
+                alert(this.playerId)
                 this.$store.dispatch('player/login',{playerId:this.playerId, backNo:this.backNo})
             },
             moveToBackNo(){

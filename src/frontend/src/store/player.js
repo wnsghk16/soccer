@@ -1,15 +1,17 @@
 import axios from 'axios'
+import router from '../router'
 
 const state = {
-    context : 'http://localhost:3000/',
+    context : 'http://localhost:3000',
     player:{},
     fail : false,
-    auth : false
+    auth : false,
+    history : []
 }
 
 const actions={
    async login({commit}, payload){
-       const url = state.context + `players/${payload.playerId}/access`
+       const url = state.context + `/players/${payload.playerId}/access`
        const headers = {
            authorization: 'JWT fefege..',
            Accept : 'application/json',
@@ -17,8 +19,11 @@ const actions={
        }
        axios.post(url,payload,headers)
            .then(({data})=>{
-               alert('자바를 다녀옴')
-               commit('LOGIN_COMMIT',data)
+               if(data.result){
+                   commit('LOGIN_COMMIT',data)
+               }else{
+                   commit('FAIL_COMMIT')
+               }
            })
            .catch(()=>{
                alert('서버 전송 실패')
@@ -27,6 +32,9 @@ const actions={
     },
     async join({commit}){
         {commit('join')}
+    },
+    async logout({commit}){
+        {commit('LOGOUT_COMMIT')}
     }
 }
 
@@ -36,14 +44,25 @@ const mutations={
         state.player = data.player
         localStorage.setItem('token',data.token)
         localStorage.setItem('playerId',data.player.playerId)
-        if(data.player.auth === 'USER'){
-            alert('일반사용자')
-            /*일반사용자*/
+        if(data.player.teamId !== 'K01'){
+            alert('일반 사용자')
+            router.push('/')
         }else{
             alert('관리자')
-            /*관리자*/
+            /* 관리자 */
         }
 
+    },
+    FAIL_COMMIT(state){
+        state.fail=true
+        alert('로그인실패')
+    },
+    LOGOUT_COMMIT(state){
+        localStorage.clear()
+        state.auth=false
+        state.player={}
+        router.push('/')
+        alert('로그아웃')
     },
     join (){
         alert('회원가입')

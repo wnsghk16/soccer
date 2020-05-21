@@ -7,5 +7,7 @@ import java.util.List;
 
 @Component
 public interface PlayerService {
-    public List<PlayerDTO> retriveAll();
+    public List<PlayerDTO> retrive();
+    public PlayerDTO findOne(String searchWord);
+    public PlayerDTO login(PlayerDTO params);
 }
